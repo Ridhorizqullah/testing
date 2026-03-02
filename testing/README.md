@@ -1,59 +1,202 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🌐 Platform Direktori Komunitas & Portofolio Anggota
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Platform berbasis **Laravel + Filament** untuk mengelola dan menampilkan profil anggota komunitas beserta portofolio proyek mereka secara dinamis.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📖 Deskripsi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Proyek ini adalah sebuah **Platform Direktori Komunitas dan Portofolio** yang menghubungkan manajemen data internal yang efisien dengan tampilan publik yang menarik.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Admin** dapat mengelola data anggota dan proyek melalui **Panel Admin Filament** tanpa menyentuh kode.
+- **Pengunjung** dapat melihat profil dan portofolio anggota secara dinamis di halaman depan (frontend).
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## ✨ Fitur Utama
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Fitur | Deskripsi |
+|---|---|
+| 🖥️ **Dashboard Admin** | Panel kontrol profesional berbasis Filament untuk mengelola semua data |
+| 👤 **Manajemen Anggota** | CRUD anggota komunitas lengkap dengan foto profil |
+| 📁 **Manajemen Proyek** | Input dan organisasi karya/proyek setiap anggota |
+| 🖼️ **Upload Gambar** | Unggah thumbnail proyek yang langsung dapat diakses publik |
+| 🔗 **Link Demo** | Setiap proyek dapat dilengkapi tautan demo eksternal |
+| 🌍 **Halaman Publik Dinamis** | Frontend yang otomatis terupdate saat data di admin berubah |
+| 📱 **Responsif** | Tampilan optimal di perangkat desktop maupun mobile |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Teknologi yang Digunakan
 
-### Premium Partners
+- **Framework**: [Laravel](https://laravel.com/) (PHP)
+- **Admin Panel**: [Filament](https://filamentphp.com/)
+- **Database**: MySQL / SQLite
+- **Frontend Templating**: Blade
+- **File Storage**: Laravel Storage (symlink publik)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🚀 Cara Instalasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Prasyarat
+- PHP >= 8.1
+- Composer
+- Node.js & NPM
+- MySQL atau database pilihan Anda
 
-## Code of Conduct
+### Langkah-langkah
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+# 1. Clone repositori
+git clone https://github.com/username/nama-repo.git
+cd nama-repo
 
-## Security Vulnerabilities
+# 2. Install dependensi PHP
+composer install
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 3. Install dependensi Node.js
+npm install && npm run build
 
-## License
+# 4. Salin file konfigurasi environment
+cp .env.example .env
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 5. Generate application key
+php artisan key:generate
+
+# 6. Konfigurasi database di file .env
+# DB_DATABASE=nama_database
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# 7. Jalankan migrasi database
+php artisan migrate
+
+# 8. Sinkronisasi folder media (storage symlink)
+php artisan storage:link
+
+# 9. Buat akun administrator pertama
+php artisan make:filament-user
+
+# 10. Jalankan server lokal
+php artisan serve
+```
+
+Akses aplikasi di `http://localhost:8000` dan panel admin di `http://localhost:8000/admin`.
+
+---
+
+## 📂 Struktur Proyek
+
+```
+├── app/
+│   ├── Filament/
+│   │   └── Resources/
+│   │       ├── UserResource/          # Resource anggota di panel admin
+│   │       │   └── RelationManagers/
+│   │       │       └── ProjectsRelationManager.php
+│   │       └── ProjectResource.php    # Resource proyek di panel admin
+│   ├── Http/
+│   │   └── Controllers/
+│   │       └── MemberController.php   # Controller halaman publik
+│   └── Models/
+│       ├── User.php                   # Model anggota
+│       └── Project.php                # Model proyek
+├── database/
+│   └── migrations/
+│       └── xxxx_create_projects_table.php
+├── resources/
+│   └── views/
+│       └── members/
+│           └── index.blade.php        # Tampilan halaman publik
+└── routes/
+    └── web.php                        # Routing aplikasi
+```
+
+---
+
+## 🗄️ Struktur Database
+
+### Tabel `users` (Anggota)
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| `id` | bigint | Primary Key |
+| `name` | varchar | Nama anggota |
+| `email` | varchar | Email (unik) |
+| `password` | varchar | Password (hashed) |
+| `avatar` | varchar | Path foto profil |
+| `bio` | text | Deskripsi singkat |
+
+### Tabel `projects` (Proyek)
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| `id` | bigint | Primary Key |
+| `user_id` | bigint | Foreign Key → `users.id` |
+| `title` | varchar | Judul proyek |
+| `description` | text | Deskripsi proyek |
+| `thumbnail` | varchar | Path foto/thumbnail |
+| `demo_url` | varchar | Link demo (nullable) |
+
+### Relasi
+```
+User (Anggota) ──< Project (Proyek)
+     1                 Many
+```
+
+---
+
+## 🎛️ Panduan Admin
+
+1. Login ke `/admin` menggunakan akun administrator.
+2. Navigasi ke menu **Users** untuk mengelola data anggota.
+3. Navigasi ke menu **Projects** untuk mengelola semua proyek.
+4. Untuk menambah proyek milik anggota tertentu, buka profil anggota dan gunakan tab **Projects** di bagian bawah (Relation Manager).
+
+---
+
+## 📋 Status Pengembangan
+
+- [x] Instalasi Framework Filament
+- [x] Konfigurasi Panel Admin
+- [x] Pembuatan User Akses
+- [x] Sinkronisasi Folder Media
+- [x] Definisi Model Proyek
+- [x] Rancangan Database (Migrasi)
+- [x] Pengaturan Relasi Data (One-to-Many)
+- [x] Eksekusi Database
+- [x] Pembuatan Resource Proyek (Filament)
+- [x] Desain Formulir Input (Form)
+- [x] Pengaturan Tabel Daftar (List)
+- [x] Manajer Relasi (Relation Manager)
+- [x] Pengambilan Data (Controller)
+- [x] Pengaturan Alamat (Route)
+- [x] Pembuatan Tampilan Visual (Blade)
+- [ ] Uji Input Data
+- [ ] Validasi Visual
+- [ ] Cek Responsif
+
+---
+
+## 🔮 Rencana Pengembangan
+
+- [ ] Sistem pencarian anggota berdasarkan nama atau keahlian
+- [ ] Filter proyek berdasarkan kategori atau teknologi
+- [ ] Halaman detail profil anggota (`/member/{id}`)
+- [ ] Sistem autentikasi untuk anggota (self-service portofolio)
+- [ ] API endpoint untuk integrasi dengan aplikasi mobile
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+
+---
+
+## 🤝 Kontribusi
+
+Kontribusi sangat disambut! Silakan buka *issue* atau kirimkan *pull request* untuk perbaikan atau fitur baru.
+
+---
+
+<p align="center">Dibuat dengan ❤️ menggunakan Laravel & Filament</p>
