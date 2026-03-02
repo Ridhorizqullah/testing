@@ -17,8 +17,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // Kolom role untuk RBAC (FR-AUTH-001) — admin atau user biasa
+            $table->enum('role', ['admin', 'user'])->default('user');
             $table->rememberToken();
             $table->timestamps();
+
+            // Index untuk query filter berdasarkan role
+            $table->index('role');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

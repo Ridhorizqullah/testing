@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Work extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'member_id',
         'category_id',
@@ -25,8 +27,9 @@ class Work extends Model
         'is_published' => 'boolean',
     ];
 
-    // ── Auto-generate Slug ────────────────────────────────────
-
+    // ─────────────────────────────────────────────────────────────────────────
+    // BOOT: Auto-generate slug dari title saat create
+    // ─────────────────────────────────────────────────────────────────────────
     protected static function boot(): void
     {
         parent::boot();
@@ -38,39 +41,90 @@ class Work extends Model
         });
 
         static::updating(function (Work $work) {
-            if ($work->isDirty('title') && ! $work->isDirty('slug')) {
+            if ($work->isDirty('title') && !$work->isDirty('slug')) {
                 $work->slug = static::generateUniqueSlug($work->title, $work->id);
             }
         });
     }
 
-    protected static function generateUniqueSlug(string $title, ?int $ignoreId = null): string
+    /**
+     * Generate slug unik dari judul karya.
+     */
+    protected static function generateUniqueSlug(string $title, ?int $excludeId = null): string
     {
-        $slug  = Str::slug($title);
-        $count = 0;
+        $baseSlug = Str::slug($title);
+        $slug     = $baseSlug;
+        $counter  = 2;
 
-        while (true) {
-            $candidate = $count === 0 ? $slug : "{$slug}-{$count}";
-            $query     = static::where('slug', $candidate);
-            if ($ignoreId) {
-                $query->where('id', '!=', $ignoreId);
-            }
-            if (! $query->exists()) {
-                return $candidate;
-            }
-            $count++;
+        while (
+            static::where('slug', $slug)
+                ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
+                ->exists()
+        ) {
+            $slug = "{$baseSlug}-{$counter}";
+            $counter++;
         }
+
+        return $slug;
     }
 
-    // ── Relasi ────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
+    // SCOPES
+    // ─────────────────────────────────────────────────────────────────────────
 
-    public function member(): BelongsTo
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order')->orderBy('created_at', 'desc');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // RELASI
+    // ─────────────────────────────────────────────────────────────────────────
+
+    public function member()
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function category(): BelongsTo
+    public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // ACCESSOR
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * URL gambar penuh.
+     */
+    public function getImageUrlAttribute(): ?string
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
+
+    /**
+     * URL thumbnail.
+     */
+    public function getThumbnailUrlAttribute(): ?string
+    {
+        if ($this->image_thumbnail) {
+            return asset('storage/' . $this->image_thumbnail);
+        }
+        // Fallback ke gambar penuh jika tidak ada thumbnail
+        return $this->imageUrl;
+    }
+
+    /**
+     * Route binding menggunakan slug.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

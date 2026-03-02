@@ -2,20 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Category extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'slug',
         'description',
     ];
 
-    // ── Auto-generate Slug ────────────────────────────────────
-
+    // ─────────────────────────────────────────────────────────────────────────
+    // BOOT: Auto-generate slug dari name
+    // ─────────────────────────────────────────────────────────────────────────
     protected static function boot(): void
     {
         parent::boot();
@@ -27,9 +30,11 @@ class Category extends Model
         });
     }
 
-    // ── Relasi ────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
+    // RELASI
+    // ─────────────────────────────────────────────────────────────────────────
 
-    public function works(): HasMany
+    public function works()
     {
         return $this->hasMany(Work::class);
     }

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -32,17 +33,37 @@ class User extends Authenticatable
         ];
     }
 
-    // ── Relasi ──────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
+    // FILAMENT: Wajib implement FilamentUser (Filament v5)
+    // Menentukan siapa yang boleh masuk ke panel /admin
+    // ─────────────────────────────────────────────────────────────────────────
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Baik admin maupun user biasa bisa masuk panel
+        // Pembatasan aksi per-role dilakukan di level Resource Filament
+        return in_array($this->role, ['admin', 'user']);
+    }
 
-    public function member(): HasOne
+    // ─────────────────────────────────────────────────────────────────────────
+    // RELASI
+    // ─────────────────────────────────────────────────────────────────────────
+
+    public function member()
     {
         return $this->hasOne(Member::class);
     }
 
-    // ── Accessor ─────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
+    // HELPER ROLE
+    // ─────────────────────────────────────────────────────────────────────────
 
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
     }
 }
